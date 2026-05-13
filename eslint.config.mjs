@@ -26,6 +26,13 @@ const eslintConfig = defineConfig([
       }],
     },
   },
+  {
+    files: ["scripts/**/*.ts"],
+    rules: {
+      // tsx runs these scripts as CJS, which does not support top-level await.
+      "unicorn/prefer-top-level-await": "off",
+    },
+  },
   globalIgnores([
     ".next/**",
     "out/**",
