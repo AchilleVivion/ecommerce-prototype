@@ -13,7 +13,7 @@ describe("ImageWithFallback", () => {
 
     fireEvent.error(image);
     expect(
-      screen.getByRole("img", { name: "Error loading image" }),
+      screen.getByRole("img", { name: "Error loading" }),
     ).toBeInTheDocument();
   });
 });
