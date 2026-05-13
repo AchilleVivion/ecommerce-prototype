@@ -1,8 +1,17 @@
-import type { Product } from "@/types/product";
+export interface StaticProduct {
+  name: string;
+  price: number;
+  discountedPrice?: number;
+  discount?: number;
+  category: string;
+  image: string;
+  rating: number;
+  reviews: number;
+  description?: string;
+}
 
-export const products: Product[] = [
+export const products: StaticProduct[] = [
   {
-    id: 1,
     name: "Wireless Bluetooth Headphones",
     price: 89.99,
     discountedPrice: 69.99,
@@ -16,7 +25,6 @@ export const products: Product[] = [
       "Premium wireless headphones with active noise cancellation and 30-hour battery life.",
   },
   {
-    id: 2,
     name: "Minimalist Leather Wallet",
     price: 45,
     category: "Accessories",
@@ -28,7 +36,6 @@ export const products: Product[] = [
       "Handcrafted genuine leather wallet with RFID protection and slim design.",
   },
   {
-    id: 3,
     name: "Smart Fitness Watch",
     price: 199.99,
     discountedPrice: 149.99,
@@ -42,7 +49,6 @@ export const products: Product[] = [
       "Track your fitness goals with heart rate monitoring, GPS, and waterproof design.",
   },
   {
-    id: 4,
     name: "Ceramic Coffee Mug Set",
     price: 34.99,
     category: "Home & Kitchen",
@@ -54,7 +60,6 @@ export const products: Product[] = [
       "Set of 4 handmade ceramic mugs, microwave and dishwasher safe.",
   },
   {
-    id: 5,
     name: "Professional Camera Backpack",
     price: 129.99,
     discountedPrice: 99.99,
@@ -68,7 +73,6 @@ export const products: Product[] = [
       "Weather-resistant camera bag with customizable compartments and laptop sleeve.",
   },
   {
-    id: 6,
     name: "Organic Cotton T-Shirt",
     price: 24.99,
     category: "Clothing",
@@ -80,7 +84,6 @@ export const products: Product[] = [
       "Soft, breathable organic cotton tee in classic fit. Available in multiple colors.",
   },
   {
-    id: 7,
     name: "Stainless Steel Water Bottle",
     price: 29.99,
     category: "Sports & Outdoors",
@@ -92,7 +95,6 @@ export const products: Product[] = [
       "Insulated bottle keeps drinks cold for 24 hours or hot for 12 hours.",
   },
   {
-    id: 8,
     name: "Wireless Gaming Mouse",
     price: 79.99,
     discountedPrice: 59.99,
@@ -106,7 +108,6 @@ export const products: Product[] = [
       "High-precision gaming mouse with customizable RGB lighting and programmable buttons.",
   },
   {
-    id: 9,
     name: "Scented Candle Collection",
     price: 39.99,
     category: "Home & Kitchen",
@@ -118,7 +119,6 @@ export const products: Product[] = [
       "Set of 3 soy wax candles with natural essential oils. Burns for 40+ hours.",
   },
   {
-    id: 10,
     name: "Yoga Mat with Carrying Strap",
     price: 49.99,
     discountedPrice: 34.99,
@@ -132,7 +132,6 @@ export const products: Product[] = [
       "Non-slip, eco-friendly yoga mat with extra cushioning and alignment markers.",
   },
   {
-    id: 11,
     name: "Portable Bluetooth Speaker",
     price: 59.99,
     category: "Electronics",
@@ -143,7 +142,6 @@ export const products: Product[] = [
     description: "Waterproof speaker with 360° sound and 12-hour battery life.",
   },
   {
-    id: 12,
     name: "Classic Denim Jacket",
     price: 89.99,
     discountedPrice: 69.99,

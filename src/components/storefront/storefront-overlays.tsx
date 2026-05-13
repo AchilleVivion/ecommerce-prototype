@@ -8,8 +8,8 @@ interface StorefrontOverlaysProps {
   isCartOpen: boolean;
   onCartClose: () => void;
   cartItems: CartItem[];
-  onUpdateQuantity: (productId: number, quantity: number) => void;
-  onRemoveItem: (productId: number) => void;
+  onUpdateQuantity: (productSlug: string, quantity: number) => void;
+  onRemoveItem: (productSlug: string) => void;
   selectedProduct: Product | null;
   isProductModalOpen: boolean;
   onProductModalClose: () => void;

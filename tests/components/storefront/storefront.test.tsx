@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { Storefront } from "@/components/storefront/storefront";
+import { getStaticFallbackProducts } from "@/lib/graphql/get-products";
 
 vi.mock("sonner", () => ({
   Toaster: () => null,
@@ -12,7 +13,7 @@ describe("Storefront", () => {
   it("supports category filters, search, cart, and product modal flows", async () => {
     const user = userEvent.setup();
 
-    render(<Storefront />);
+    render(<Storefront initialProducts={getStaticFallbackProducts()} />);
 
     expect(screen.getByRole("heading", { name: "All Products" })).toBeVisible();
 

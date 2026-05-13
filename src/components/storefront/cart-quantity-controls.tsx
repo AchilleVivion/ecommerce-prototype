@@ -3,14 +3,14 @@
 import { Minus, Plus, Trash2 } from "lucide-react";
 
 interface CartQuantityControlsProps {
-  productId: number;
+  productSlug: string;
   quantity: number;
-  onUpdateQuantity: (productId: number, quantity: number) => void;
-  onRemoveItem: (productId: number) => void;
+  onUpdateQuantity: (productSlug: string, quantity: number) => void;
+  onRemoveItem: (productSlug: string) => void;
 }
 
 export function CartQuantityControls({
-  productId,
+  productSlug,
   quantity,
   onUpdateQuantity,
   onRemoveItem,
@@ -20,7 +20,7 @@ export function CartQuantityControls({
       <div className="flex items-center gap-2">
         <button
           type="button"
-          onClick={() => onUpdateQuantity(productId, quantity - 1)}
+          onClick={() => onUpdateQuantity(productSlug, quantity - 1)}
           className="rounded p-1 hover:bg-slate-200"
           disabled={quantity <= 1}
         >
@@ -29,7 +29,7 @@ export function CartQuantityControls({
         <span className="w-8 text-center text-sm font-medium">{quantity}</span>
         <button
           type="button"
-          onClick={() => onUpdateQuantity(productId, quantity + 1)}
+          onClick={() => onUpdateQuantity(productSlug, quantity + 1)}
           className="rounded p-1 hover:bg-slate-200"
         >
           <Plus className="h-4 w-4" />
@@ -37,7 +37,7 @@ export function CartQuantityControls({
       </div>
       <button
         type="button"
-        onClick={() => onRemoveItem(productId)}
+        onClick={() => onRemoveItem(productSlug)}
         className="rounded p-1 text-red-600 hover:bg-red-100"
       >
         <Trash2 className="h-4 w-4" />

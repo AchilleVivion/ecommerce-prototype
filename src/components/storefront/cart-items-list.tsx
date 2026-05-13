@@ -3,8 +3,8 @@ import { CartItemRow } from "./cart-item-row";
 
 interface CartItemsListProps {
   items: CartItem[];
-  onUpdateQuantity: (productId: number, quantity: number) => void;
-  onRemoveItem: (productId: number) => void;
+  onUpdateQuantity: (productSlug: string, quantity: number) => void;
+  onRemoveItem: (productSlug: string) => void;
 }
 
 export function CartItemsList({
@@ -24,7 +24,7 @@ export function CartItemsList({
     <div className="space-y-4">
       {items.map((item) => (
         <CartItemRow
-          key={item.product.id}
+          key={item.product.slug}
           item={item}
           onUpdateQuantity={onUpdateQuantity}
           onRemoveItem={onRemoveItem}

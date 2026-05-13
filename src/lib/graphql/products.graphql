@@ -1,0 +1,33 @@
+query Products {
+  allProduct(sort: [{ featured: DESC }]) {
+    slug {
+      current
+    }
+    name {
+      language
+      value
+    }
+    description {
+      language
+      value
+    }
+    price
+    discountedPrice
+    discount
+    rating
+    reviews
+    featured
+    category {
+      title {
+        language
+        value
+      }
+    }
+    image {
+      asset {
+        url
+      }
+    }
+    imageUrl
+  }
+}

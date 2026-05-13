@@ -19,6 +19,8 @@ jobs:
       - run: npm run test:coverage
       - run: ./node_modules/.bin/playwright install chromium --with-deps
       - run: npm run test:e2e
+        env:
+          USE_MOCKS: "true"
 
       - name: Upload coverage
         uses: actions/upload-artifact@v4
@@ -67,6 +69,11 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts
       - run: npm run build
+        env:
+          USE_MOCKS: "true"
+          NEXT_PUBLIC_SANITY_PROJECT_ID: test-project
+          NEXT_PUBLIC_SANITY_DATASET: production
+          NEXT_PUBLIC_SANITY_GRAPHQL_TAG: default
 
   sonarcloud:
     runs-on: ubuntu-latest
@@ -105,6 +112,13 @@ jobs:
         with:
           node-version: "22"
           cache: npm
+
+      - run: npm ci --ignore-scripts
+
+      - name: Deploy Sanity GraphQL API (staging)
+        run: npx sanity graphql deploy --dataset staging --tag default
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
 
       - name: Install vercel CLI
         run: yarn global add vercel
@@ -172,6 +186,18 @@ jobs:
     needs: [dast, security-headers]
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - run: npm ci --ignore-scripts
+
+      - name: Deploy Sanity GraphQL API (production)
+        run: npx sanity graphql deploy --dataset production --tag default
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+
       - run: yarn global add vercel
       - run: vercel --prod --yes
         env:

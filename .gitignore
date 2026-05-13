@@ -37,3 +37,9 @@ next-env.d.ts
 
 # vscode
 .vscode
+
+docs
+test-results
+
+# env files
+.env*

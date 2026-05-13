@@ -3,10 +3,10 @@ import {
   getListingTitle,
 } from "@/lib/storefront-catalog";
 import type { Product } from "@/types/product";
-import { products } from "@/data/products";
 import { ProductGridSection } from "./product-grid-section";
 
 interface StorefrontMainProps {
+  products: Product[];
   selectedCategory: string;
   searchQuery: string;
   sortBy: string;
@@ -15,6 +15,7 @@ interface StorefrontMainProps {
 }
 
 export function StorefrontMain({
+  products,
   selectedCategory,
   searchQuery,
   sortBy,

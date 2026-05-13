@@ -9,12 +9,14 @@ export function useCart() {
 
   const handleAddToCart = (product: Product) => {
     setCartItems((previous) => {
-      const existing = previous.find((item) => item.product.id === product.id);
+      const existing = previous.find(
+        (item) => item.product.slug === product.slug,
+      );
 
       if (existing) {
         toast.success("Quantity updated in cart");
         return previous.map((item) =>
-          item.product.id === product.id
+          item.product.slug === product.slug
             ? { ...item, quantity: item.quantity + 1 }
             : item,
         );
@@ -25,22 +27,22 @@ export function useCart() {
     });
   };
 
-  const handleRemoveItem = (productId: number) => {
+  const handleRemoveItem = (productSlug: string) => {
     setCartItems((previous) =>
-      previous.filter((item) => item.product.id !== productId),
+      previous.filter((item) => item.product.slug !== productSlug),
     );
     toast.success("Removed from cart");
   };
 
-  const handleUpdateQuantity = (productId: number, quantity: number) => {
+  const handleUpdateQuantity = (productSlug: string, quantity: number) => {
     if (quantity <= 0) {
-      handleRemoveItem(productId);
+      handleRemoveItem(productSlug);
       return;
     }
 
     setCartItems((previous) =>
       previous.map((item) =>
-        item.product.id === productId ? { ...item, quantity } : item,
+        item.product.slug === productSlug ? { ...item, quantity } : item,
       ),
     );
   };

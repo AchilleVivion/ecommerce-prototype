@@ -2,7 +2,7 @@ import type { Product } from "@/types/product";
 
 export const sampleProducts: Product[] = [
   {
-    id: 1,
+    slug: "alpha-headphones",
     name: "Alpha Headphones",
     price: 100,
     discountedPrice: 80,
@@ -13,7 +13,7 @@ export const sampleProducts: Product[] = [
     reviews: 10,
   },
   {
-    id: 2,
+    slug: "beta-wallet",
     name: "Beta Wallet",
     price: 50,
     category: "Accessories",
@@ -22,7 +22,7 @@ export const sampleProducts: Product[] = [
     reviews: 5,
   },
   {
-    id: 3,
+    slug: "gamma-mug",
     name: "Gamma Mug",
     price: 20,
     category: "Home & Kitchen",

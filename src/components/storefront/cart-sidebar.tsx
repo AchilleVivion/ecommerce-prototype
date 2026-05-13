@@ -9,8 +9,8 @@ interface CartSidebarProps {
   isOpen: boolean;
   onClose: () => void;
   items: CartItem[];
-  onUpdateQuantity: (productId: number, quantity: number) => void;
-  onRemoveItem: (productId: number) => void;
+  onUpdateQuantity: (productSlug: string, quantity: number) => void;
+  onRemoveItem: (productSlug: string) => void;
 }
 
 function getCartTotal(items: CartItem[]): number {

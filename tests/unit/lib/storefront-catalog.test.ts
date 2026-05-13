@@ -28,6 +28,10 @@ describe("getListingTitle", () => {
 });
 
 describe("filterAndSortProducts", () => {
+  const gammaSlug = "gamma-mug";
+  const betaSlug = "beta-wallet";
+  const alphaSlug = "alpha-headphones";
+
   it("filters by category and search query", () => {
     const electronics = filterAndSortProducts(
       sampleProducts,
@@ -55,7 +59,11 @@ describe("filterAndSortProducts", () => {
       "",
       "price-low",
     );
-    expect(byPriceLow.map((product) => product.id)).toEqual([3, 2, 1]);
+    expect(byPriceLow.map((product) => product.slug)).toEqual([
+      gammaSlug,
+      betaSlug,
+      alphaSlug,
+    ]);
 
     const byPriceHigh = filterAndSortProducts(
       sampleProducts,
@@ -63,10 +71,14 @@ describe("filterAndSortProducts", () => {
       "",
       "price-high",
     );
-    expect(byPriceHigh.map((product) => product.id)).toEqual([1, 2, 3]);
+    expect(byPriceHigh.map((product) => product.slug)).toEqual([
+      alphaSlug,
+      betaSlug,
+      gammaSlug,
+    ]);
 
     const byRating = filterAndSortProducts(sampleProducts, "All", "", "rating");
-    expect(byRating[0]?.id).toBe(2);
+    expect(byRating[0]?.slug).toBe(betaSlug);
   });
 });
 

@@ -4,6 +4,8 @@ import { describe, expect, it, vi } from "vitest";
 import { CartQuantityControls } from "@/components/storefront/cart-quantity-controls";
 
 describe("CartQuantityControls", () => {
+  const productSlug = "alpha-headphones";
+
   it("updates and removes cart quantities", async () => {
     const user = userEvent.setup();
     const onUpdateQuantity = vi.fn();
@@ -11,7 +13,7 @@ describe("CartQuantityControls", () => {
 
     render(
       <CartQuantityControls
-        productId={7}
+        productSlug={productSlug}
         quantity={2}
         onUpdateQuantity={onUpdateQuantity}
         onRemoveItem={onRemoveItem}
@@ -21,12 +23,12 @@ describe("CartQuantityControls", () => {
     expect(screen.getByText("2")).toBeInTheDocument();
 
     await user.click(screen.getAllByRole("button")[0]!);
-    expect(onUpdateQuantity).toHaveBeenCalledWith(7, 1);
+    expect(onUpdateQuantity).toHaveBeenCalledWith(productSlug, 1);
 
     await user.click(screen.getAllByRole("button")[1]!);
-    expect(onUpdateQuantity).toHaveBeenCalledWith(7, 3);
+    expect(onUpdateQuantity).toHaveBeenCalledWith(productSlug, 3);
 
     await user.click(screen.getAllByRole("button")[2]!);
-    expect(onRemoveItem).toHaveBeenCalledWith(7);
+    expect(onRemoveItem).toHaveBeenCalledWith(productSlug);
   });
 });

@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import { Toaster } from "sonner";
-import { products } from "@/data/products";
 import { useCart } from "@/hooks/use-cart";
 import { getProductCategories } from "@/lib/storefront-catalog";
 import type { Product } from "@/types/product";
@@ -11,7 +10,11 @@ import { Header } from "./header";
 import { StorefrontMain } from "./storefront-main";
 import { StorefrontOverlays } from "./storefront-overlays";
 
-export function Storefront() {
+interface StorefrontProps {
+  initialProducts: Product[];
+}
+
+function useStorefrontState() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,44 +22,68 @@ export function Storefront() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const cart = useCart();
-  const categories = useMemo(() => getProductCategories(products), []);
+
+  return {
+    isCartOpen,
+    setIsCartOpen,
+    selectedCategory,
+    setSelectedCategory,
+    searchQuery,
+    setSearchQuery,
+    sortBy,
+    setSortBy,
+    selectedProduct,
+    setSelectedProduct,
+    isProductModalOpen,
+    setIsProductModalOpen,
+    cart,
+  };
+}
+
+export function Storefront({ initialProducts }: Readonly<StorefrontProps>) {
+  const state = useStorefrontState();
+  const categories = useMemo(
+    () => getProductCategories(initialProducts),
+    [initialProducts],
+  );
 
   return (
     <div className="min-h-screen bg-slate-50">
       <Toaster position="bottom-right" richColors />
       <Header
-        cartItemCount={cart.totalCartItems}
-        onCartClick={() => setIsCartOpen(true)}
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
+        cartItemCount={state.cart.totalCartItems}
+        onCartClick={() => state.setIsCartOpen(true)}
+        searchQuery={state.searchQuery}
+        onSearchChange={state.setSearchQuery}
       />
       <Filters
         categories={categories}
-        selectedCategory={selectedCategory}
-        onCategoryChange={setSelectedCategory}
-        sortBy={sortBy}
-        onSortChange={setSortBy}
+        selectedCategory={state.selectedCategory}
+        onCategoryChange={state.setSelectedCategory}
+        sortBy={state.sortBy}
+        onSortChange={state.setSortBy}
       />
       <StorefrontMain
-        selectedCategory={selectedCategory}
-        searchQuery={searchQuery}
-        sortBy={sortBy}
-        onAddToCart={cart.handleAddToCart}
+        products={initialProducts}
+        selectedCategory={state.selectedCategory}
+        searchQuery={state.searchQuery}
+        sortBy={state.sortBy}
+        onAddToCart={state.cart.handleAddToCart}
         onProductClick={(product) => {
-          setSelectedProduct(product);
-          setIsProductModalOpen(true);
+          state.setSelectedProduct(product);
+          state.setIsProductModalOpen(true);
         }}
       />
       <StorefrontOverlays
-        isCartOpen={isCartOpen}
-        onCartClose={() => setIsCartOpen(false)}
-        cartItems={cart.cartItems}
-        onUpdateQuantity={cart.handleUpdateQuantity}
-        onRemoveItem={cart.handleRemoveItem}
-        selectedProduct={selectedProduct}
-        isProductModalOpen={isProductModalOpen}
-        onProductModalClose={() => setIsProductModalOpen(false)}
-        onAddToCart={cart.handleAddToCart}
+        isCartOpen={state.isCartOpen}
+        onCartClose={() => state.setIsCartOpen(false)}
+        cartItems={state.cart.cartItems}
+        onUpdateQuantity={state.cart.handleUpdateQuantity}
+        onRemoveItem={state.cart.handleRemoveItem}
+        selectedProduct={state.selectedProduct}
+        isProductModalOpen={state.isProductModalOpen}
+        onProductModalClose={() => state.setIsProductModalOpen(false)}
+        onAddToCart={state.cart.handleAddToCart}
       />
     </div>
   );

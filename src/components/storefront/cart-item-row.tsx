@@ -6,8 +6,8 @@ import { ImageWithFallback } from "./image-with-fallback";
 
 interface CartItemRowProps {
   item: CartItem;
-  onUpdateQuantity: (productId: number, quantity: number) => void;
-  onRemoveItem: (productId: number) => void;
+  onUpdateQuantity: (productSlug: string, quantity: number) => void;
+  onRemoveItem: (productSlug: string) => void;
 }
 
 export function CartItemRow({
@@ -30,7 +30,7 @@ export function CartItemRow({
         </h3>
         <p className="mb-2 text-sm font-bold text-slate-900">${price}</p>
         <CartQuantityControls
-          productId={item.product.id}
+          productSlug={item.product.slug}
           quantity={item.quantity}
           onUpdateQuantity={onUpdateQuantity}
           onRemoveItem={onRemoveItem}

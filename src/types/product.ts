@@ -1,5 +1,5 @@
 export interface Product {
-  id: number;
+  slug: string;
   name: string;
   price: number;
   discountedPrice?: number;
@@ -9,6 +9,7 @@ export interface Product {
   rating: number;
   reviews: number;
   description?: string;
+  featured?: boolean;
 }
 
 export interface CartItem {

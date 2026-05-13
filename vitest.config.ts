@@ -21,6 +21,8 @@ export default defineConfig({
         "src/app/**/page.tsx",
         "src/proxy.ts",
         "src/i18n/**",
+        "src/instrumentation.ts",
+        "src/app/studio/**",
       ],
       thresholds: {
         statements: 80,

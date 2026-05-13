@@ -38,19 +38,19 @@ describe("useCart", () => {
 
     act(() => {
       result.current.handleAddToCart(product);
-      result.current.handleUpdateQuantity(product.id, 3);
+      result.current.handleUpdateQuantity(product.slug, 3);
     });
     expect(result.current.cartItems[0]?.quantity).toBe(3);
 
     act(() => {
-      result.current.handleUpdateQuantity(product.id, 0);
+      result.current.handleUpdateQuantity(product.slug, 0);
     });
     expect(result.current.cartItems).toHaveLength(0);
     expect(toast.success).toHaveBeenCalledWith("Removed from cart");
 
     act(() => {
       result.current.handleAddToCart(product);
-      result.current.handleRemoveItem(product.id);
+      result.current.handleRemoveItem(product.slug);
     });
     expect(result.current.cartItems).toHaveLength(0);
   });
