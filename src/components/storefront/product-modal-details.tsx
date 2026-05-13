@@ -13,7 +13,7 @@ export function ProductModalDetails({
   product,
   onAddToCart,
   onClose,
-}: ProductModalDetailsProps) {
+}: Readonly<ProductModalDetailsProps>) {
   const description =
     product.description ||
     `High-quality ${product.name.toLowerCase()} with exceptional features and durability. Perfect for everyday use and built to last.`;

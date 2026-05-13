@@ -2,7 +2,7 @@ interface CartFooterProps {
   total: number;
 }
 
-export function CartFooter({ total }: CartFooterProps) {
+export function CartFooter({ total }: Readonly<CartFooterProps>) {
   return (
     <div className="space-y-4 border-t p-4">
       <div className="flex items-center justify-between">

@@ -25,7 +25,7 @@ export function ProductRating({
   rating,
   reviews,
   size = "card",
-}: ProductRatingProps) {
+}: Readonly<ProductRatingProps>) {
   const starClass = size === "modal" ? "h-5 w-5" : "h-4 w-4";
   const reviewLabel =
     size === "modal" ? `(${reviews} reviews)` : `(${reviews})`;

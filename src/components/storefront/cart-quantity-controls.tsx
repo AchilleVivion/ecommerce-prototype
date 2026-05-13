@@ -14,7 +14,7 @@ export function CartQuantityControls({
   quantity,
   onUpdateQuantity,
   onRemoveItem,
-}: CartQuantityControlsProps) {
+}: Readonly<CartQuantityControlsProps>) {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-2">

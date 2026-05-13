@@ -26,7 +26,7 @@ export function StorefrontOverlays({
   isProductModalOpen,
   onProductModalClose,
   onAddToCart,
-}: StorefrontOverlaysProps) {
+}: Readonly<StorefrontOverlaysProps>) {
   return (
     <>
       <CartSidebar

@@ -11,7 +11,7 @@ export function ProductGridSection({
   products,
   onAddToCart,
   onProductClick,
-}: ProductGridSectionProps) {
+}: Readonly<ProductGridSectionProps>) {
   if (products.length === 0) {
     return (
       <div className="py-16 text-center">

@@ -11,7 +11,7 @@ export function CartItemsList({
   items,
   onUpdateQuantity,
   onRemoveItem,
-}: CartItemsListProps) {
+}: Readonly<CartItemsListProps>) {
   if (items.length === 0) {
     return (
       <div className="flex h-full flex-col items-center justify-center text-slate-500">

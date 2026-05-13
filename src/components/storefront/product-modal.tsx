@@ -16,7 +16,7 @@ export function ProductModal({
   isOpen,
   onClose,
   onAddToCart,
-}: ProductModalProps) {
+}: Readonly<ProductModalProps>) {
   if (!product || !isOpen) {
     return null;
   }

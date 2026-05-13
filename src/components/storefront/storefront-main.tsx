@@ -20,7 +20,7 @@ export function StorefrontMain({
   sortBy,
   onAddToCart,
   onProductClick,
-}: StorefrontMainProps) {
+}: Readonly<StorefrontMainProps>) {
   const filteredProducts = filterAndSortProducts(
     products,
     selectedCategory,

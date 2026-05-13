@@ -16,7 +16,7 @@ export function ProductCard({
   product,
   onAddToCart,
   onProductClick,
-}: ProductCardProps) {
+}: Readonly<ProductCardProps>) {
   return (
     <div className="group cursor-pointer overflow-hidden rounded-lg border border-slate-200 bg-white transition-all duration-300 hover:shadow-lg">
       <button

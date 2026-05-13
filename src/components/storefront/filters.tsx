@@ -17,7 +17,7 @@ export function Filters({
   onCategoryChange,
   sortBy,
   onSortChange,
-}: FiltersProps) {
+}: Readonly<FiltersProps>) {
   return (
     <div className="border-b bg-white">
       <div className="container mx-auto px-4 py-4">

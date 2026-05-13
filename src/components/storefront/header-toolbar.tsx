@@ -14,7 +14,7 @@ export function HeaderToolbar({
   onCartClick,
   searchQuery,
   onSearchChange,
-}: HeaderToolbarProps) {
+}: Readonly<HeaderToolbarProps>) {
   return (
 <div className="flex items-center gap-4">
         <div className="hidden w-64 items-center gap-2 rounded-full bg-slate-100 px-4 py-2 sm:flex">
