@@ -4,7 +4,7 @@ interface CategoryButtonProps {
   onClick: () => void;
 }
 
-export function CategoryButton({ label, isActive, onClick }: CategoryButtonProps) {
+export function CategoryButton({ label, isActive, onClick }: Readonly<CategoryButtonProps>) {
   const activeClass = "bg-blue-600 text-white";
   const inactiveClass = "bg-slate-100 text-slate-700 hover:bg-slate-200";
 

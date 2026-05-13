@@ -5,7 +5,7 @@ interface ProductPriceProps {
   size?: "card" | "modal";
 }
 
-export function ProductPrice({ product, size = "card" }: ProductPriceProps) {
+export function ProductPrice({ product, size = "card" }: Readonly<ProductPriceProps>) {
   const priceClass = size === "modal" ? "text-4xl" : "text-lg";
   const strikeClass = size === "modal" ? "text-2xl" : "text-sm";
 

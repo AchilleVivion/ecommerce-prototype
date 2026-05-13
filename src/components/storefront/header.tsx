@@ -12,7 +12,7 @@ interface HeaderProps {
   onSearchChange: (query: string) => void;
 }
 
-export function Header(props: HeaderProps) {
+export function Header(props: Readonly<HeaderProps>) {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   return (

@@ -14,7 +14,7 @@ export function CartItemRow({
   item,
   onUpdateQuantity,
   onRemoveItem,
-}: CartItemRowProps) {
+}: Readonly<CartItemRowProps>) {
   const price = item.product.discountedPrice || item.product.price;
 
   return (

@@ -12,7 +12,7 @@ export function ProductModalBody({
   product,
   onAddToCart,
   onClose,
-}: ProductModalBodyProps) {
+}: Readonly<ProductModalBodyProps>) {
   return (
     <div className="grid gap-8 p-8 md:grid-cols-2">
       <ProductModalGallery product={product} />

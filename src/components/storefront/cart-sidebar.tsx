@@ -27,7 +27,7 @@ export function CartSidebar({
   items,
   onUpdateQuantity,
   onRemoveItem,
-}: CartSidebarProps) {
+}: Readonly<CartSidebarProps>) {
   const total = getCartTotal(items);
 
   return (

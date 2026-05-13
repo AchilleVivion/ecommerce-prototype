@@ -5,7 +5,7 @@ interface ProductModalGalleryProps {
   product: Product;
 }
 
-export function ProductModalGallery({ product }: ProductModalGalleryProps) {
+export function ProductModalGallery({ product }: Readonly<ProductModalGalleryProps>) {
   return (
     <div className="relative aspect-square overflow-hidden rounded-lg bg-slate-100">
       <ImageWithFallback
