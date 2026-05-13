@@ -1,0 +1,180 @@
+name: Portfolio CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run test:coverage
+      - run: ./node_modules/.bin/playwright install chromium --with-deps
+      - run: npm run test:e2e
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/lcov.info
+
+  sast:
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: "pip install semgrep==1.110.0 --only-binary=:all:"
+      - run: semgrep --config=p/typescript --config=p/react --error
+
+  dependency-scan:
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci --ignore-scripts
+      - run: npm audit --audit-level=high
+
+  lints:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run lint
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run build
+
+  sonarcloud:
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage
+          path: coverage
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - run: npm ci --ignore-scripts
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@0303d6b62e310685c0e34d0b9cde218036885c4d # v5.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: [tests, sast, dependency-scan, lints, build, sonarcloud]
+    outputs:
+      preview_url: ${{ steps.deploy.outputs.preview_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install vercel CLI
+        run: yarn global add vercel
+
+      - name: add yarn to path
+        run: echo "$(yarn global bin)" >> $GITHUB_PATH
+
+      - name: Deploy Staging
+        id: deploy
+        run: |
+          OUTPUT=$(vercel --yes 2>&1)
+          PREVIEW_URL=$(echo "$OUTPUT" | grep -o 'https://[^ ]*\.vercel\.app' | tail -1)
+          echo "preview url: $PREVIEW_URL"
+          echo "preview_url=${PREVIEW_URL}" >> $GITHUB_OUTPUT
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  
+  security-headers:
+    runs-on: ubuntu-latest
+    needs: deploy-staging
+    steps:
+      - name: check security headers
+        run: |
+          URL="${{ needs.deploy-staging.outputs.preview_url }}"
+          HEADERS=$(curl -sI $URL)
+          echo "$HEADERS"
+
+          check_headers() {
+            if ! echo "$HEADERS" | grep -qi "$1"; then
+              echo "✅ $1 present"
+            else
+              echo "❌ $1 missing"
+            fi
+          }
+
+          check_headers "x-frame-options"
+          check_headers "x-content-type-options"
+          check_headers "strict-transport-security"
+          check_headers "referrer-policy"
+          check_headers "content-security-policy"
+
+  dast:
+    runs-on: ubuntu-latest
+    needs: deploy-staging
+    steps:
+      - name: Setup ZAP folder
+        run: |
+          mkdir -p /tmp/zap
+          chmod 755 /tmp/zap
+
+      - name: OWASP ZAP Scan
+        run: |
+          docker run --rm \
+          --user root \
+          -v /tmp/zap:/zap/wrk/:rw \
+          ghcr.io/zaproxy/zaproxy:stable \
+          zap-baseline.py \
+          -t ${{ needs.deploy-staging.outputs.preview_url }} \
+          -I
+
+  deploy-production:
+    runs-on: ubuntu-latest
+    needs: [dast, security-headers]
+    steps:
+      - uses: actions/checkout@v4
+      - run: yarn global add vercel
+      - run: vercel --prod --yes
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
