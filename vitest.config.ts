@@ -22,6 +22,12 @@ export default defineConfig({
         "src/proxy.ts",
         "src/i18n/**",
       ],
+      thresholds: {
+        statements: 80,
+        branches: 80,
+        functions: 80,
+        lines: 80,
+      },
     },
   },
   resolve: {
