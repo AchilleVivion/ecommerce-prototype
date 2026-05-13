@@ -1,8 +1,10 @@
 "use client";
 
-import { ShoppingCart, Star } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import type { Product } from "@/types/product";
 import { ImageWithFallback } from "./image-with-fallback";
+import { ProductPrice } from "./product-price";
+import { ProductRating } from "./product-rating";
 
 interface ProductCardProps {
   product: Product;
@@ -41,43 +43,21 @@ export function ProductCard({
         <p className="mb-3 line-clamp-1 text-xs text-slate-500">
           {product.category}
         </p>
-        <div className="mb-3 flex items-center gap-1">
-          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-          <span className="text-sm font-medium text-slate-700">
-            {product.rating}
-          </span>
-          <span className="text-xs text-slate-500">({product.reviews})</span>
-        </div>
-
-        <div className="flex items-end justify-between">
-          <div>
-            {product.discount ? (
-              <div className="flex items-center gap-2">
-                <span className="text-lg font-bold text-slate-900">
-                  ${product.discountedPrice}
-                </span>
-                <span className="text-sm text-slate-500 line-through">
-                  ${product.price}
-                </span>
-              </div>
-            ) : (
-              <span className="text-lg font-bold text-slate-900">
-                ${product.price}
-              </span>
-            )}
+        <ProductRating rating={product.rating} reviews={product.reviews} />
+<div className="mt-3 flex items-end justify-between">
+            <ProductPrice product={product} />
+            <button
+              type="button"
+              onClick={(event) => {
+                event.stopPropagation();
+                onAddToCart(product);
+              }}
+              className="rounded-full bg-blue-600 p-2 text-white transition-colors hover:bg-blue-700"
+            >
+              <ShoppingCart className="h-4 w-4" />
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              onAddToCart(product);
-            }}
-            className="rounded-full bg-blue-600 p-2 text-white transition-colors hover:bg-blue-700"
-          >
-            <ShoppingCart className="h-4 w-4" />
-          </button>
-        </div>
-      </div>
+</div>
     </div>
   );
 }

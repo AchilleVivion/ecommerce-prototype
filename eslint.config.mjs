@@ -11,9 +11,19 @@ const eslintConfig = defineConfig([
   unicorn.configs.recommended,
   {
     rules: {
+      "sonarjs/cognitive-complexity": ["error", 15],
+      "sonarjs/no-duplicate-string": "error",
+      "sonarjs/no-identical-functions": "error",
+      "unicorn/filename-case": ["error", { "cases": { "kebabCase": true } }],
+      "unicorn/no-array-for-each": "error",
       "unicorn/prevent-abbreviations": "off",
-      "unicorn/filename-case": "off",
       "unicorn/no-null": "off",
+      "max-lines-per-function": ["error", { 
+        "max": 50, 
+        "skipBlankLines": true, 
+        "skipComments": true,
+        "IIFEs": true,
+      }],
     },
   },
   globalIgnores([

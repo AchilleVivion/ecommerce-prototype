@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element -- supports onError fallback for external URLs */
+
 import { useState } from "react";
 
 const ERROR_IMG_SRC =

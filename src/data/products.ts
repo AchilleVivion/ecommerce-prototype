@@ -18,7 +18,7 @@ export const products: Product[] = [
   {
     id: 2,
     name: "Minimalist Leather Wallet",
-    price: 45.0,
+    price: 45,
     category: "Accessories",
     image:
       "https://images.unsplash.com/photo-1627123424574-724758594e93?w=500&h=500&fit=crop",
