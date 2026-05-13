@@ -15,11 +15,19 @@ export default defineConfig({
     coverage: {
       provider: "istanbul",
       reporter: ["text", "lcov"],
+      include: ["src/**/*.{ts,tsx}"],
+      exclude: [
+        "src/app/**/layout.tsx",
+        "src/app/**/page.tsx",
+        "src/proxy.ts",
+        "src/i18n/**",
+      ],
     },
   },
   resolve: {
     alias: {
       "@": path.resolve(root, "./src"),
+      "@tests": path.resolve(root, "./tests"),
     },
   },
 });
